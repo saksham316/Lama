@@ -16,6 +16,11 @@ const projectFileSchema = new Schema({
     minLength: 5,
     maxLength: 200,
   },
+  projectId: {
+    type: Schema.Types.ObjectId,
+    ref: "project",
+    select: false,
+  },
 });
 
 export const projectFileModel = mongoose.model(

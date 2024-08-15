@@ -1,21 +1,12 @@
-// -------------------------------------------------Imports------------------------------------------------------------
-import mongoose, { Schema } from "mongoose";
-// --------------------------------------------------------------------------------------------------------------------
+// ------------------------------------------------------Imports-------------------------------------------------------------
+import { Router } from "express";
+import { login, logout } from "../../controllers/auth/authController.js";
+// --------------------------------------------------------------------------------------------------------------------------
 
-// Auth Schema
-const projectSchema = new Schema({
-  projectName: {
-    type: String,
-    required: [true, "Project Name is a required field"],
-    minLength: 5,
-    maxLength: 50,
-  },
-  projectFiles: [
-    {
-      ref: "projectFile",
-      projectFileId: Schema.Types.ObjectId,
-    },
-  ],
-});
+export const authRouter = Router();
 
-export const projectModel = mongoose.model("project", projectSchema);
+// login route
+authRouter.route("/login").post(login);
+
+// logout route
+authRouter.route("/logout").post(logout);

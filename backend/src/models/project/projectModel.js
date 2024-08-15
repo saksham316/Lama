@@ -12,8 +12,8 @@ const projectSchema = new Schema({
   },
   projectFiles: [
     {
+      type: Schema.Types.ObjectId,
       ref: "projectFile",
-      projectFileId: Schema.Types.ObjectId,
     },
   ],
 });
