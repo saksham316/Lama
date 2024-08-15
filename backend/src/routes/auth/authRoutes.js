@@ -9,4 +9,4 @@ export const authRouter = Router();
 authRouter.route("/login").post(login);
 
 // logout route
-authRouter.route("/logout").post(logout);
+authRouter.route("/logout").post(verifyToken, logout);

@@ -1,6 +1,7 @@
 // ----------------------------------------------------Imports---------------------------------------------------------
 import bcrypt from "bcryptjs";
 import { CustomError } from "./Error/customErrorHandler";
+import jwt from "jsonwebtoken";
 // --------------------------------------------------------------------------------------------------------------------
 
 // hashPassword
@@ -21,4 +22,15 @@ export const compareHashedPassword = async (password, hashedPassword) => {
   } catch (error) {
     return next(new CustomError(error.message), 500);
   }
+};
+
+// signJwt
+export const signJwt = (data) => {
+  return jwt.sign(
+    {
+      ...(data && data),
+    },
+    process.env.JWT_SECRET_KEY,
+    { expiresIn: "1h" }
+  );
 };

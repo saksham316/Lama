@@ -10,5 +10,5 @@ export const projectFileRouter = Router();
 
 projectFileRouter
   .route(["/", "/:project_file_id"])
-  .put(updateProjectFile)
-  .delete(deleteProjectFile);
+  .put(verifyToken, updateProjectFile)
+  .delete(verifyToken, deleteProjectFile);

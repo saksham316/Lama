@@ -10,10 +10,11 @@ import {
 
 export const projectRouter = Router();
 
-projectRouter.route("/").get(getProjects).post(createProject);
+projectRouter.route("/")
+  .get(getProjects)
+  .post(createProject);
 
 projectRouter
   .route("/:project_id")
   .get(getProjectFiles)
   .post(createProjectFile);
-
