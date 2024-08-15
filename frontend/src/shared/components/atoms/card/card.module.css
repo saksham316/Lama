@@ -1,0 +1,23 @@
+.container {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  padding: 15px;
+  gap: 5px;
+}
+.logo {
+  grid-row-start: 1;
+  grid-row-end: 3;
+  position: relative;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  text-overflow: ellipsis;
+  font-size: 24px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.description {
+  text-overflow: ellipsis;
+  font-family: Arial, Helvetica, sans-serif;
+}

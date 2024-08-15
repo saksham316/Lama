@@ -1,0 +1,77 @@
+@media screen and (min-width: 425px) and (max-width: 768px) {
+  .container {
+    width: 200px !important;
+    font-size: 14px !important;
+    padding: 5px;
+  }
+  .container svg {
+    height: 30px !important;
+    width: 30px !important;
+  }
+  .container2 {
+    font-size: 2vw !important;
+    width: 35vw !important;
+  }
+  .container2 svg {
+    height: 4vw !important;
+    width: 4vw !important;
+  }
+}
+@media screen and (min-width: 375px) and (max-width: 425px) {
+  .container {
+    width: 200px !important;
+    font-size: 14px !important;
+    padding: 5px;
+  }
+  .container svg {
+    height: 30px !important;
+    width: 30px !important;
+  }
+  .container2 {
+    font-size: 3vw !important;
+    width: 40vw !important;
+  }
+  .container2 svg {
+    height: 7vw !important;
+    width: 7vw !important;
+  }
+}
+@media screen and (min-width: 320px) and (max-width: 375px) {
+  .container {
+    width: 200px !important;
+    font-size: 12px !important;
+    padding: 5px;
+  }
+  .container svg {
+    height: 25px !important;
+    width: 25px !important;
+  }
+  .container2 {
+    font-size: 3vw !important;
+    width: 40vw !important;
+  }
+  .container2 svg {
+    height: 7vw !important;
+    width: 7vw !important;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .container {
+    font-size: 4vw !important;
+    min-width: 100px;
+  }
+  .container svg {
+    height: 10vw !important;
+    width: 10vw !important;
+  }
+  .container2 {
+    font-size: 4vw !important;
+    width: 50vw !important;
+    border-radius: 5px !important;
+  }
+  .container2 svg {
+    height: 5vw !important;
+    width: 5vw !important;
+  }
+}

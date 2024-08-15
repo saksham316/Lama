@@ -1,0 +1,24 @@
+@media screen and (min-width: 375px) and (max-width: 425px) {
+  .rightComponent {
+    width: 100px !important;
+  }
+  .leftComponent {
+    width: 200px !important;
+  }
+}
+@media screen and (min-width: 320px) and (max-width: 375px) {
+  .rightComponent {
+    width: 100px !important;
+  }
+  .leftComponent {
+    width: 200px !important;
+  }
+}
+@media screen and (max-width: 320px) {
+  .rightComponent {
+    width: 100px !important;
+  }
+  .leftComponent {
+    width: 200px !important;
+  }
+}
