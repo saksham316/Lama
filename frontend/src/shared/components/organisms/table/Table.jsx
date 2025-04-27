@@ -1,15 +1,11 @@
 import React from "react";
-import { Button } from "../../atoms/button/Button";
-import { ActionButton } from "../../molecules/actionButton/ActionButton";
 import styles from "./table.module.css";
 
 const Table = ({
   title = "Your Files",
-  columnDefs = [
-    { label: "No." },
-    { label: "Name", width: "30%" },
-    { label: "Upload Date & Time" },
-  ],
+  columnHeadDefs = [],
+  columnBodyData = [],
+  onView,
 }) => {
   return (
     <div className={styles.container}>
@@ -17,28 +13,42 @@ const Table = ({
       <table>
         <thead>
           <tr>
-            {columnDefs &&
-              columnDefs.map((def) => {
-                return (
-                  <th style={{ width: def.width ? def.width : "auto" }}>
-                    {def.label}
-                  </th>
-                );
+            {columnHeadDefs &&
+              columnHeadDefs.map((def, idx) => {
+                return <th key={idx}>{def.label}</th>;
               })}
             <th>{"Action"}</th>
           </tr>
         </thead>
-        <tbody className={styles.tableBody} style={{ overflow: "scroll" }}>
-          <tr>
-            <td>Hell</td>
-            <td>Hell</td>
-            <td>Hell</td>
-            <td>
-              <span>
-                <ActionButton />
-              </span>
-            </td>
-          </tr>
+        <tbody className={styles.tableBody} style={{ overflow: "auto" }}>
+          {columnBodyData &&
+            columnBodyData.map((data, idx) => {
+              return (
+                <tr key={idx}>
+                  <td>{idx + 1}</td>
+                  <td>{data.name ?? ""}</td>
+                  <td>
+                    {data.createdAt
+                      ? `${data.createdAt.split("T")[0]} | ${
+                          data.createdAt.split("T")[1].split(".")[0]
+                        }`
+                      : ""}
+                  </td>
+                  <td>
+                    <div className={styles.action_btn_wrapper}>
+                      <button
+                        onClick={() => {
+                          onView(data);
+                        }}
+                      >
+                        View
+                      </button>
+                      <button>Delete</button>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
         </tbody>
       </table>
     </div>

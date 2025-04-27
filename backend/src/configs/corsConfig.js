@@ -1,13 +1,13 @@
 // -----------------------------------------------------------Imports----------------------------------------------------
-import { APP_ENV } from "../utils/index.js";
 // ----------------------------------------------------------------------------------------------------------------------
 
-const PRODUCTION_URIS = [];
-const DEVELOPMENT_URIS = ["https://localhost:3000"];
+const PRODUCTION_URLS = [];
+const DEVELOPMENT_URLS = ["http://localhost:3000", "http://localhost:5173"];
 
 // corsConfig -- configuration for the cors handling
 export const corsConfig = {
-  origin: APP_ENV === "production" ? PRODUCTION_URIS : DEVELOPMENT_URIS,
+  origin:
+    process.env.NODE_ENV === "production" ? PRODUCTION_URLS : DEVELOPMENT_URLS,
   credentials: true,
   methods: ["GET", "PUT", "POST", "PATCH", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization", "x-csrf-token"],

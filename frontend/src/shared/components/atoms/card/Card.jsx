@@ -16,11 +16,11 @@ const Card = ({
       onClick={onClick}
       style={{
         width: "100%",
-        minWidth: "170px",
-        maxWidth: "300px",
-        height: "150px",
+        minWidth: "120px",
+        maxWidth: "320px",
+        height: "120px",
         borderRadius: "15px",
-        boxShadow: "2px 2px 7px 3px gray",
+        border: "1px solid #999999",
         cursor: "pointer",
         ...(logoLocation &&
           logoLocation === "right" && {
@@ -35,7 +35,7 @@ const Card = ({
           justifyContent: "center",
           alignItems: "center",
           overflow: "hidden",
-          backgroundColor: `${logo ? "white" : "pink"}`,
+          backgroundColor: `${logo ? "white" : "#F8A01D"}`,
           borderRadius: "10px",
           ...(logoLocation &&
             logoLocation === "right" && {
@@ -60,7 +60,6 @@ const Card = ({
           <p
             style={{
               fontSize: "40px",
-              fontFamily: "sans-serif",
               fontWeight: "bolder",
               color: "white",
               letterSpacing: "3px",
@@ -70,15 +69,13 @@ const Card = ({
           </p>
         )}
       </div>
-      <h4 className={`${styles.title}`} style={{ textOverflow: "ellipsis" }}>
-        {title}
-      </h4>
-      <p
-        className={`${styles.description}`}
-        style={{ textOverflow: "ellipsis" }}
-      >
-        {description}
-      </p>
+      <div className={styles.text_container}>
+        <div>
+          <p className={`${styles.title}`}>{title}</p>
+          <p className={`${styles.description}`}>{description}</p>
+        </div>
+        <p className={styles.editTime}>Last edited a week ago</p>
+      </div>
     </div>
   );
 };

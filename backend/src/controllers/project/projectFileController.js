@@ -8,8 +8,9 @@ import { projectFileModel } from "../../models/project/projectFileModel.js";
 // --------------------------------------------------------------------------------------------------------------------
 
 // @url - /project-files/:project_file_id
-// @method - PUT
+// @method - PATCH
 export const updateProjectFile = asyncErrorHandler(async (req, res, next) => {
+  const { payload } = req.body;
   const { project_file_id } = req.params;
   if (!project_file_id) {
     return next(new CustomError("Project File Id is required", 400));

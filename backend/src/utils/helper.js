@@ -1,7 +1,7 @@
 // ----------------------------------------------------Imports---------------------------------------------------------
 import bcrypt from "bcryptjs";
-import { CustomError } from "./Error/customErrorHandler";
 import jwt from "jsonwebtoken";
+import { CustomError } from "./Error/customErrorHandler.js";
 // --------------------------------------------------------------------------------------------------------------------
 
 // hashPassword
@@ -16,7 +16,7 @@ export const hashPassword = async (password) => {
 };
 
 // compareHashedPassword
-export const compareHashedPassword = async (password, hashedPassword) => {
+export const compareHashedPassword = async (password, hashedPassword, next) => {
   try {
     return await bcrypt.compare(password, hashedPassword);
   } catch (error) {
@@ -31,6 +31,6 @@ export const signJwt = (data) => {
       ...(data && data),
     },
     process.env.JWT_SECRET_KEY,
-    { expiresIn: "1h" }
+    { expiresIn: "12h" }
   );
 };

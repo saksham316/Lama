@@ -1,6 +1,13 @@
+.input {
+  outline: none;
+  border: 1.28px solid #dbdbdb;
+  font-size: 1rem;
+}
 .input::placeholder {
   color: gray;
   font-weight: bolder;
   opacity: 60%;
   display: flex;
+  font-weight: 700;
+  font-size: 1rem;
 }

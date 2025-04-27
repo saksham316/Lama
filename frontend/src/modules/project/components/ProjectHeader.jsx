@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import styles from "./projectHeader.module.css";
+import styles from "./styles/projectHeader.module.css";
 
 const ProjectHeader = ({
   leftComponent: LeftComponent,
@@ -24,6 +24,7 @@ const ProjectHeader = ({
           height: "80px",
           display: "flex",
           justifyContent: "center",
+          paddingTop: "2rem",
           alignItems: "center",
           ...(project_id && {
             paddingLeft: "50px",
@@ -39,7 +40,10 @@ const ProjectHeader = ({
           <LeftComponent />
         </div>
       </div>
-      <div className={`${styles.rightComponent}`} style={{ width: "200px" }}>
+      <div
+        className={`${styles.rightComponent}`}
+        style={{ width: "200px", paddingTop: "2rem" }}
+      >
         <RightComponent />
       </div>
     </div>

@@ -10,7 +10,8 @@ import { projectFileModel } from "../../models/project/projectFileModel.js";
 // @url - /projects/
 // @method - GET
 export const getProjects = asyncErrorHandler(async (req, res, next) => {
-  const projectDocs = await projectModel.find().populate("projectFiles");
+  const { id } = req.body;
+  const projectDocs = await projectModel.find({ userId: id });
   if (!projectDocs.length) {
     return next(new CustomError("No Data Found", 404));
   }
@@ -20,7 +21,7 @@ export const getProjects = asyncErrorHandler(async (req, res, next) => {
 // @url - /projects/
 // @method - POST
 export const createProject = asyncErrorHandler(async (req, res, next) => {
-  const { payload } = req.body;
+  const { payload, id } = req.body;
 
   if (!payload) {
     return next(new CustomError("Payload is required", 400));
@@ -30,11 +31,14 @@ export const createProject = asyncErrorHandler(async (req, res, next) => {
   const sanitizedPayload = lodash.pick(payload, ["projectName"]);
 
   if (sanitizedPayload.projectName) {
-    const projectDoc = new projectModel({ projectName });
+    const projectDoc = new projectModel({
+      projectName: sanitizedPayload.projectName,
+      userId: id,
+    });
 
     await projectDoc.save();
 
-    return successRes(res, 200, "Project Created");
+    return successRes(res, 201, "Project Created Successfully");
   } else {
     return next(new CustomError("Project Name is required", 400));
   }
@@ -59,6 +63,7 @@ export const getProjectFiles = asyncErrorHandler(async (req, res, next) => {
 // @method - POST
 export const createProjectFile = asyncErrorHandler(async (req, res, next) => {
   const { payload } = req.body;
+  const project_id = req.params?.project_id ?? "";
 
   if (!project_id) {
     return next(new CustomError("Project Id is required", 400));

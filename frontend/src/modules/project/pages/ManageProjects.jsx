@@ -1,27 +1,36 @@
 // ------------------------------------------------Imports--------------------------------------------------------
-import React from "react";
-import { Logo } from "../../../../shared/components/atoms/logo/Logo";
+import React, { useEffect } from "react";
 import { GoGear } from "react-icons/go";
-import { IoIosNotificationsOutline } from "react-icons/io";
-import { ProjectHeader } from "../../components/layout/header/ProjectHeader";
-import { iconSize } from "../../utils/constants";
-import { ProjectsDashboard } from "../../components/dashboard/ProjectsDashboard";
+import { ProjectHeader } from "../components/ProjectHeader";
+import { iconSize } from "../utils/constants";
+import { ProjectsDashboard } from "../components/ProjectsDashboard";
 import { Outlet, useParams } from "react-router-dom";
-import { ProjectSidebar } from "../../components/layout/sidebar/ProjectSidebar";
-import { BreadCrumb } from "../../../../shared/components/molecules/breadCrumb/BreadCrumb";
+import { ProjectSidebar } from "../components/ProjectSidebar";
+import { BreadCrumb } from "../../../shared/components/molecules/breadCrumb/BreadCrumb";
 import { MdLogout } from "react-icons/md";
-import styles from "./manageProjects.module.css";
+import styles from "./styles/manageProjects.module.css";
+import { FaRegBell } from "react-icons/fa6";
+import { Logo } from "../../../shared/components/atoms/logo/Logo";
+import { useDispatch, useSelector } from "react-redux";
+import { getProjects } from "../../../redux/project/projectAction";
+import { logout } from "../../../redux/auth/authAction";
+import { PURGE } from "redux-persist";
 
 // -----------------------------------------------------------------------------------------------------------------
 
 const ManageProjects = () => {
+  // -----------------------------------------------States--------------------------------------------------------
+  const { projects, pathSlugs } = useSelector((state) => state.project);
+
   // ------------------------------------------------Hooks--------------------------------------------------------
+  const dispatch = useDispatch();
   const { project_id } = useParams();
 
   // ----------------------------------------------------------------------------------------------------------------
+
   // leftComponent
   const leftComponent = () => {
-    return !project_id ? <Logo /> : <BreadCrumb />;
+    return !project_id ? <Logo /> : <BreadCrumb crumbData={pathSlugs} />;
   };
 
   // rightComponent
@@ -37,13 +46,26 @@ const ManageProjects = () => {
           gap: "15px",
         }}
       >
-        {!project_id && <GoGear size={iconSize} />}
-        <IoIosNotificationsOutline size={iconSize} />
-        {project_id && <MdLogout size={iconSize} color="red" />}
+        {!project_id && (
+          <GoGear size={iconSize} style={{ strokeWidth: ".5" }} />
+        )}
+        <FaRegBell size={iconSize} />
+
+        {project_id && (
+          <MdLogout
+            size={iconSize}
+            color="red"
+            style={{ cursor: "pointer" }}
+            onClick={(e) => {}}
+          />
+        )}
       </div>
     );
   };
 
+  useEffect(() => {
+    dispatch(getProjects());
+  }, []);
   return (
     <div
       style={{
@@ -84,7 +106,7 @@ const ManageProjects = () => {
           }}
         >
           {!project_id ? (
-            <ProjectsDashboard projectsList={[1, 2, 3, 4, 5]} />
+            <ProjectsDashboard projectsList={projects ?? []} />
           ) : (
             <Outlet />
           )}

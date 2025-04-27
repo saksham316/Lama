@@ -5,7 +5,7 @@ import { CustomError } from "../../utils/Error/customErrorHandler.js";
 import { authModel } from "../../models/auth/authModel.js";
 import { saveTokenToCookie } from "../../utils/cookie.js";
 import { successRes } from "../../utils/index.js";
-import { signJwt } from "../../utils/helper.js";
+import { compareHashedPassword, signJwt } from "../../utils/helper.js";
 // --------------------------------------------------------------------------------------------------------------------
 
 // @url - /auth/login
@@ -22,22 +22,28 @@ export const login = asyncErrorHandler(async (req, res, next) => {
 
   if (sanitizedPayload.email && sanitizedPayload.password) {
     const { email, password } = sanitizedPayload;
-    const doc = authModel.findOne({ email });
-    const token = signJwt();
+    const doc = await authModel.findOne({ email }).select("+password");
 
     // if user doesn't exists then creating a entry of the user in the db
     if (!doc) {
       const authDoc = new authModel({ email, password });
 
-      await authDoc.save();
-      saveTokenToCookie(token);
+      const document = await authDoc.save();
+      const token = signJwt({ id: document._id.toString() });
+      saveTokenToCookie(res, token);
 
       return successRes(res, 200, "User Logged In Successfully");
     } else {
       // if user exists then comparing the users password
-      if (compareHashedPassword(password, doc.password)) {
-        saveTokenToCookie(token);
-        return successRes(res, 200, "User Logged In Successfully");
+      const isMatched = await compareHashedPassword(
+        password,
+        doc.password,
+        next
+      );
+      if (isMatched) {
+        const token = signJwt({ id: doc._id });
+        saveTokenToCookie(res, token);
+        return successRes(res, 200, "User Logged In Successfully", { email });
       } else {
         return next(new CustomError("Invalid Email/Password", 400));
       }
@@ -46,7 +52,6 @@ export const login = asyncErrorHandler(async (req, res, next) => {
     return next(new CustomError("Email/Password is required", 400));
   }
 });
-
 
 // @url - /auth/logout
 // @method - POST

@@ -1,41 +1,59 @@
 // ----------------------------------------------------Imports---------------------------------------------------------
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { InputField } from "../../../shared/components/molecules/inputField/InputField";
 import styles from "./authForm.module.css";
 import { useDispatch } from "react-redux";
-import { login } from "../../../redux/auth/slices/authSlice";
 import { CheckboxField } from "../../../shared/components/molecules/checkboxField/CheckboxField";
 import { Button } from "../../../shared/components/atoms/button/Button";
 import { FcGoogle } from "react-icons/fc";
 import { iconSize } from "../../../utils/constants";
-import { authValidator } from "../../../helpers/validator";
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { login } from "../../../redux/auth/authAction";
 
 // ----------------------------------------------------------------------------------------------------------------------
 
 const AuthModal = () => {
   // ---------------------------------------------------States--------------------------------------------------------------
-  const [errorMessage, setErrorMessage] = useState({ email: "", password: "" });
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  // authSchema
+  const authSchema = yup.object().shape({
+    email: yup.string().email("Invalid email").required("Email is required"),
+    password: yup
+      .string()
+      .required("Password is required")
+      .min(6, "Password must be at least 6 characters"),
+  });
 
   // -----------------------------------------------------------------------------------------------------------------------
   // ----------------------------------------------------Hooks--------------------------------------------------------------
   const dispatch = useDispatch();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(authSchema),
+    mode: "onChange",
+  });
   // -----------------------------------------------------------------------------------------------------------------------
   // ---------------------------------------------------Functions--------------------------------------------------------------
 
-  const handleInputErrors = (name, value) => {
-    setErrorMessage(authValidator(name, value));
-  };
-
-  const handleLogin = (e) => {
-    e.preventDefault();
-
-    if (!errorMessage.email && !errorMessage.password) {
-      dispatch(login(email));
+  const handleLogin = handleSubmit(async (data) => {
+    try {
+      setIsLoading(true);
+      const res = await dispatch(login({ payload: data }));
+      if (res.payload.success) {
+        setIsLoading(false);
+      }
+    } catch (error) {
+      setIsLoading(false);
+      console.error(error.message);
+    } finally {
+      setIsLoading(false);
     }
-  };
+  });
   // -----------------------------------------------------------------------------------------------------------------------
   return (
     <>
@@ -45,34 +63,24 @@ const AuthModal = () => {
           <div className={`${styles.logo}`}>
             <img src="./images/logo/authFormLogo.png" />
           </div>
-          <form className={`${styles.authCard}`} onSubmit={handleLogin}>
-            <div className="" style={{ width: "70%" }}>
+          <form className={styles.authCard} onSubmit={handleLogin}>
+            <div className={styles.inputWrapper}>
               <InputField
+                {...register("email")}
                 w={"full"}
                 placeholder="Email Address"
                 type="text"
                 name="email"
-                onChange={(e) => {
-                  const { value } = e.target;
-                  handleInputErrors("email", value);
-                  setEmail(value);
-                }}
-                errorMessage={errorMessage.email}
+                errorMessage={errors.email?.message ?? ""}
                 errorLocation={"start"}
               />
-            </div>
-            <div className="" style={{ width: "70%" }}>
               <InputField
+                {...register("password")}
                 w={"full"}
                 placeholder="Password"
                 type="password"
                 name="password"
-                onChange={(e) => {
-                  const { value } = e.target;
-                  handleInputErrors("password", value);
-                  setPassword(value);
-                }}
-                errorMessage={errorMessage.password}
+                errorMessage={errors.password?.message ?? ""}
                 errorLocation={"start"}
               />
             </div>
@@ -90,66 +98,72 @@ const AuthModal = () => {
                   alignItems: "center",
                 }}
               >
-                <span style={{ cursor: "pointer" }}>Forgot Password?</span>
+                <span style={{ cursor: "pointer", color: "#085FCE" }}>
+                  Forgot Password?
+                </span>
               </p>
             </div>
-            <div
-              className={`${styles.loginBtn}`}
-              style={{ width: "70%", padding: "10px" }}
-            >
-              <Button
-                title={"Login"}
-                bgColor={"#7e22ce"}
-                color={"white"}
-                w={"100%"}
-              />
-            </div>
-            <div
-              className="or"
-              style={{
-                width: "70%",
-                padding: "10px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "centers",
-              }}
-            >
-              <div
-                style={{ width: "45%", borderColor: "gray", opacity: "60%" }}
-              >
-                <hr />
+            <div className={styles.buttonWrapper}>
+              <div className={`${styles.loginBtn}`}>
+                <Button
+                  title={isLoading ? "Logging in..." : "Login"}
+                  bgColor={"#7e22ce"}
+                  color={"white"}
+                  w={"100%"}
+                  type={"submit"}
+                  disabled={isLoading}
+                />
               </div>
-              <p
+              <div
+                className="or"
                 style={{
-                  width: "10%",
                   display: "flex",
                   alignItems: "center",
-                  justifyContent: "center",
+                  justifyContent: "centers",
                 }}
               >
-                or
-              </p>
-              <div
-                style={{ width: "45%", borderColor: "gray", opacity: "60%" }}
-              >
-                <hr />
+                <div
+                  style={{ width: "45%", borderColor: "gray", opacity: "60%" }}
+                >
+                  <hr />
+                </div>
+                <p
+                  style={{
+                    width: "10%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  or
+                </p>
+                <div
+                  style={{ width: "45%", borderColor: "gray", opacity: "60%" }}
+                >
+                  <hr />
+                </div>
               </div>
-            </div>
-            <div
-              className="googleAuth"
-              style={{
-                width: "65%",
-                margin: "5px",
-                padding: "10px",
-                display: "flex",
-                alignItems: "center",
-                borderRadius: "5px",
-                boxShadow: "1px 1px 5px 0px gray",
-                gap: "10px",
-              }}
-            >
-              <FcGoogle size={iconSize} />
-              <p>Continue with Google</p>
+              <div>
+                <div
+                  className="googleAuth"
+                  style={{
+                    margin: "5px",
+                    padding: "10px",
+                    display: "flex",
+                    alignItems: "center",
+                    borderRadius: "5px",
+                    border: "1.28px solid #DBDBDB",
+                    gap: "10px",
+                    cursor: "pointer",
+                  }}
+                >
+                  <FcGoogle size={iconSize} />
+                  <p>Continue with Google</p>
+                </div>
+                <p className={styles.noAccount}>
+                  Don't have an account? <span>Create Account</span>
+                </p>
+              </div>
             </div>
           </form>
         </section>

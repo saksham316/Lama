@@ -1,6 +1,7 @@
 // ------------------------------------------------------Imports-------------------------------------------------------------
 import { Router } from "express";
 import { login, logout } from "../../controllers/auth/authController.js";
+import { verifyToken } from "../../middlewares/verifyTokenMiddleware.js";
 // --------------------------------------------------------------------------------------------------------------------------
 
 export const authRouter = Router();

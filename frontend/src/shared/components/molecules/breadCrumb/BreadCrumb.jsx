@@ -2,6 +2,7 @@ import React from "react";
 import { FcHome } from "react-icons/fc";
 import { GoHome } from "react-icons/go";
 import { Link } from "react-router-dom";
+import styles from "./breadCrumb.module.css";
 
 const BreadCrumb = ({ crumbData = [] }) => {
   return (
@@ -12,6 +13,8 @@ const BreadCrumb = ({ crumbData = [] }) => {
         alignItems: "center",
         width: "100%",
         height: "100%",
+        fontSize: "1.2rem",
+        color: "#999999",
       }}
     >
       <Link
@@ -22,14 +25,13 @@ const BreadCrumb = ({ crumbData = [] }) => {
           gap: "5px",
           cursor: "pointer ",
           textDecoration: "none",
-          fontSize: "24px",
-          color: "black",
           fontWeight: "bolder",
+          color: "#999999",
           fontFamily: "monospace",
         }}
       >
         <GoHome />
-        <span>Home</span>
+        <span className={styles.slug_path}>Home</span>
       </Link>
       {crumbData && crumbData.length ? (
         crumbData.map((data, index) => {
@@ -41,14 +43,17 @@ const BreadCrumb = ({ crumbData = [] }) => {
                 gap: "5px",
                 cursor: "pointer ",
                 textDecoration: "none",
-                fontSize: "1.5vw",
-                color: "black",
                 fontWeight: "bolder",
+                color: "#999999",
                 fontFamily: "monospace",
               }}
               key={index}
             >
-              /<span style={{ color: "#7e22ce" }}> {data.label}</span>
+              /
+              <span style={{ color: "#7e22ce" }} className={styles.slug_path}>
+                {" "}
+                {data.label}
+              </span>
             </div>
           ) : (
             <Link
@@ -59,14 +64,13 @@ const BreadCrumb = ({ crumbData = [] }) => {
                 gap: "5px",
                 cursor: "pointer ",
                 textDecoration: "none",
-                fontSize: "1.5vw",
-                color: "black",
+                color: "#999999",
                 fontWeight: "bolder",
                 fontFamily: "monospace",
               }}
               key={index}
             >
-              <span>/ {data.label}</span>
+              <span className={styles.slug_path}>/ {data.label}</span>
             </Link>
           );
         })

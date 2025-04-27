@@ -1,7 +1,8 @@
 // -------------------------------------------------------Imports----------------------------------------------------
-import "./App.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { routes } from "./routes";
+import { ToastContainer } from "react-toastify";
+
 // --------------------------------------------------------------------------------------------------------------------
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
   return (
     <>
       <RouterProvider router={appRouter} />
+      <ToastContainer position="top-right" autoClose={3000} />
     </>
   );
 }

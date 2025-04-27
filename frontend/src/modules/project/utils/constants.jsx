@@ -28,17 +28,18 @@ export const PROJECT_SIDEBAR_OPTIONS = [
 export const ADD_PODCAST_OPTIONS = [
   {
     title: "RSS Feed",
-    description: "ldsadl sjadklorem loresandn",
+    description: "ldsadl sjadklorem loresandn asdsadsadsadsad",
     logo: rssFeedImg,
   },
   {
     title: "Youtube Video",
-    description: "ldsadl sjadklorem loresandn",
+    description: "ldsadl sjadklorem loresandn sadsadsadsadsad ",
     logo: youtubeImg,
   },
   {
     title: "Upload Files",
-    description: "ldsadl sjadklorem loresandn",
+    description: "ldsadl sjadklorem loresandn sdasadsasadsadsad",
     logo: uploadFileImg,
   },
 ];
+

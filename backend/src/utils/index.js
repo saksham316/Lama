@@ -1,6 +1,3 @@
-// appEnv -- application working environment
-export const APP_ENV = process.env.NODE_ENV;
-
 // versionOne -- prepends api/v1 in the api endpoint
 export const versionOne = (field) => {
   return `/api/v1/${field}`;

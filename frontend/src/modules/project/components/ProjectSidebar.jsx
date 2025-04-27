@@ -1,8 +1,8 @@
 import React from "react";
 import { GoGear } from "react-icons/go";
-import { Logo } from "../../../../../shared/components/atoms/logo/Logo";
-import { PROJECT_SIDEBAR_OPTIONS } from "../../../utils/constants";
-import styles from "./projectSidebar.module.css";
+import { Logo } from "../../../shared/components/atoms/logo/Logo";
+import styles from "./styles/projectSidebar.module.css";
+import { PROJECT_SIDEBAR_OPTIONS } from "../utils/constants";
 
 const ProjectSidebar = () => {
   return (
@@ -30,7 +30,7 @@ const ProjectSidebar = () => {
             <Logo />
           </div>
         </div>
-        {PROJECT_SIDEBAR_OPTIONS.map((option) => {
+        {PROJECT_SIDEBAR_OPTIONS.map((option, idx) => {
           return (
             <div
               className={`${styles.options}`}
@@ -41,6 +41,7 @@ const ProjectSidebar = () => {
                 gap: "10px",
                 cursor: "pointer",
               }}
+              key={idx}
             >
               {option.icon}
               <span>{option.name}</span>

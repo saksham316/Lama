@@ -2,11 +2,13 @@
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
+import cookieParser from "cookie-parser";
 import { corsConfig } from "./configs/corsConfig.js";
-import { APP_ENV, versionOne } from "./utils/index.js";
+import { versionOne } from "./utils/index.js";
 import { authRouter } from "./routes/auth/authRoutes.js";
 import { projectRouter } from "./routes/project/projectRoutes.js";
 import { projectFileRouter } from "./routes/project/projectFileRoutes.js";
+import { CustomError } from "./utils/Error/customErrorHandler.js";
 // ----------------------------------------------------------------------------------------------------------------------------
 
 export const app = express();
@@ -14,8 +16,11 @@ export const app = express();
 // ------------------------------------------------------Cors Handling----------------------------------------------------------
 app.use(cors(corsConfig));
 // ---------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------Cookie Parser----------------------------------------------------------
+app.use(cookieParser()); // parses the incoming cookie
+
 // ---------------------------------------------------------Morgan----------------------------------------------------------
-APP_ENV === "development" && app.use(morgan("combined"));
+process.env.NODE_ENV !== "production" && app.use(morgan("combined"));
 
 // ---------------------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------Parsing Request Body----------------------------------------------------
@@ -34,6 +39,7 @@ app.all("*", (req, res, next) => {
 });
 
 app.use((error, req, res, next) => {
+  console.log("ERROR:::", error.message);
   error.statusCode = error.statusCode || 500;
   return res.status(error.statusCode).json({
     success: false,
