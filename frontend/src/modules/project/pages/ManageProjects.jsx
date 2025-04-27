@@ -13,8 +13,6 @@ import { FaRegBell } from "react-icons/fa6";
 import { Logo } from "../../../shared/components/atoms/logo/Logo";
 import { useDispatch, useSelector } from "react-redux";
 import { getProjects } from "../../../redux/project/projectAction";
-import { logout } from "../../../redux/auth/authAction";
-import { PURGE } from "redux-persist";
 
 // -----------------------------------------------------------------------------------------------------------------
 
