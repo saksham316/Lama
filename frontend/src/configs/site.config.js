@@ -1,2 +1,2 @@
-const SERVER_URL = "http://localhost:8989/api/v1";
+const SERVER_URL = "https://lama-o8l5.onrender.com/api/v1";
 export { SERVER_URL };
