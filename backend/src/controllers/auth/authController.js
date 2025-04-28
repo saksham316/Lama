@@ -32,7 +32,7 @@ export const login = asyncErrorHandler(async (req, res, next) => {
       const token = signJwt({ id: document._id.toString() });
       saveTokenToCookie(res, token);
 
-      return successRes(res, 200, "User Logged In Successfully");
+      return successRes(res, 200, "User Logged In Successfully", { email });
     } else {
       // if user exists then comparing the users password
       const isMatched = await compareHashedPassword(
