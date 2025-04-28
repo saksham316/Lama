@@ -1,7 +1,7 @@
 // -----------------------------------------------------------Imports----------------------------------------------------
 // ----------------------------------------------------------------------------------------------------------------------
 
-const PRODUCTION_URLS = [];
+const PRODUCTION_URLS = ["https://skai-lama-app.netlify.app"];
 const DEVELOPMENT_URLS = ["http://localhost:3000", "http://localhost:5173"];
 
 // corsConfig -- configuration for the cors handling
